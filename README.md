@@ -4,7 +4,7 @@ You can manage your daily tasks and cross off the completed tasks easily to boos
 
 This project is a Node.js and Express.js application that implements user registration, authentication, and rate-limiting functionalities. It uses EJS for templating, PostgreSQL for data storage, and bcrypt for password hashing.
 
-## Technology Stack <img src='images/pg.png' width="48px" height = "48px" padding="20px"> <img src='images/express.png' width="48px" height = "48px" padding="20px"> <img src='images/nodejs.png' width="48px" height = "48px" padding="20px">
+## Technology Stack <img src='images/pg.png' width="48px" height = "48px" padding="10px"> <img src='images/express.png' width="80px" height = "48px" padding="10px"> <img src='images/nodejs.png' width="70px" height = "48px" padding="10px">
 
 - Node.js 
 - Express js
@@ -20,7 +20,6 @@ Hash and securely store passwords in the PostgreSQL database.
 Implement validation to ensure unique usernames and emails.
 
 - User Authentication (Login):
-
 API endpoint for user authentication (login).
 Verify user credentials against the stored information in the database.
 Generate and return a secure authentication token upon successful login.
@@ -40,11 +39,22 @@ The project is structured as follows:
 - **`public/`:** Directory for static assets (CSS, images).
 - **`database/`:** Directory for database-related files (schema.sql, migrations, etc.).
 
+## Rate-Limitations
+
+```javascript
+const limiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 5, // 5 requests per minute
+});
+```
+This creates a rate-limiting middleware using the express-rate-limit package. The configuration specifies that a client is allowed a maximum of 5 requests per minute (max: 5) within a rolling window of 1 minute (windowMs: 60 * 1000).
+
+
 ## Demo <img src='images/postman.png' width="48px" padding="10px">
 
 <img src="images/demo2.png" alt="Image 2">
 
-<img src="images/demo3.png" alt="Image 2">
+<img src="images/demo3.png" alt="Image 3" width="550px" height="600px">
 
 ## Installation
 
@@ -54,9 +64,17 @@ Follow these steps to set up and run the Currency Converter project on your loca
 ```bash
 git clone https://github.com/khyatigupta369/Datiffy---BE.git
 ```
-2. Set up the PostgreSQL database:
 
-Create a PostgreSQL database.
+2. Set up the PostgreSQL database:
+```bash
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+```
+
 Run the SQL schema from database/schema.sql to set up the user table.
 
 3. Install all required packages for the backend:
@@ -68,17 +86,6 @@ npm install
 ```bash
 nodemon app.js
 ```
-
-## Rate-Limitations
-
-```javascript
-const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 5, // 5 requests per minute
-});
-```
-- This creates a rate-limiting middleware using the express-rate-limit package. The configuration specifies that a client is allowed a maximum of 5 requests per minute (max: 5) within a rolling window of 1 minute (windowMs: 60 * 1000).
-
 
 ## Support and Contact
 
