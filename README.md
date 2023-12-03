@@ -4,7 +4,7 @@ You can manage your daily tasks and cross off the completed tasks easily to boos
 
 This project is a Node.js and Express.js application that implements user registration, authentication, and rate-limiting functionalities. It uses EJS for templating, PostgreSQL for data storage, and bcrypt for password hashing.
 
-## Technology Stack <img src='images/pg.png' width="48px" padding="10px"> <img src='images/express.png' width="48px" padding="10px"> <img src='images/nodejs.png' width="48px" padding="10px">
+## Technology Stack <img src='images/pg.png' width="48px" height = "48px" padding="20px"> <img src='images/express.png' width="48px" height = "48px" padding="20px"> <img src='images/nodejs.png' width="48px" height = "48px" padding="20px">
 
 - Node.js 
 - Express js
