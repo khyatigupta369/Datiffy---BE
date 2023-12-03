@@ -55,8 +55,6 @@ app.post("/work", (req, res) => {
 
 app.post('/register', limiter, async (req, res) => {
     const { username, email, password } = req.body;
-    console.log(req.body)
-    console.log(username, email, password);
 
     const userExists = await pool.query(`Select *
                                          from users 
@@ -65,6 +63,9 @@ app.post('/register', limiter, async (req, res) => {
         [username, email]);
     if (userExists.rows.length > 0) {
         return res.render("register", { error: 'Username or Email already Registered' });
+        // TODO: CREATE API ENDPOINT 
+        // return res.status(400).json({ error: 'Username or email already exists' });
+
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -77,7 +78,7 @@ app.post('/register', limiter, async (req, res) => {
 
     res.redirect("/login");
     // TODO: TO CREATE API ENDPOINT
-    // res.json({ token });
+    // res.status(201).json({ user: result.rows[0] });
 });
 
 app.post('/login', limiter, async (req, res) => {
@@ -88,7 +89,9 @@ app.post('/login', limiter, async (req, res) => {
         [username]);
 
     if (result.rows.length === 0) {
-        return res.render("login", { error: 'Invalid credentials, Please Try Again' });
+        return res.render("login", { error: 'Invalid credential - Username, Please Try Again' });
+        // TODO: TO CREATE API ENDPOINT
+        // return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     const user = result.rows[0];
@@ -96,7 +99,9 @@ app.post('/login', limiter, async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-        return res.status(401).json({ error: 'Invalid credentials, Please Try Again' });
+        return res.render("login", { error: 'Invalid credential - Password, Please Try Again' });
+        // TODO: TO CREATE API ENDPOINT
+        // return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     const token = jwt.sign({ userId: user.id }, 'Datiffy', { expiresIn: '1h' });
@@ -107,6 +112,8 @@ app.post('/login', limiter, async (req, res) => {
         [token, user.id]);
 
     res.redirect("/work");
+    // TODO: TO CREATE API ENDPOINT
+    // res.json({ token });
 });
 
 app.get('/secure-endpoint', limiter, (req, res) => {
