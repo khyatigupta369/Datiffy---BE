@@ -7,15 +7,18 @@ const ejs = require('ejs');
 const { Pool } = require('pg');
 
 const date = require(__dirname + '/today.js');
+require('dotenv').config();
+dbUser = process.env.DB_USER
+dbPassword = process.env.DB_PASSWORD
 
 const app = express();
 const port = 3000;
 
 const pool = new Pool({
-    user: 'postgres',
+    user: dbUser,
     host: 'localhost',
     database: 'users',
-    password: 'postgre123',
+    password: dbPassword,
     port: 5432,
 });
 
